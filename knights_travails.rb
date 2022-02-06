@@ -24,3 +24,22 @@ class SquareNode
   end
 end
 
+class KnightsPath
+  def initialize(start)
+    @root = SquareNode.new(nil, start)
+    @knight = Knight.new
+  end
+
+  def gen_path()
+    node_queue = [@root]
+    exhausted_moves = [@root.location]
+
+    until node_queue.empty?
+      parent = node_queue.shift
+      legit_moves = @knight.legit_moves(parent.location) - exhausted_moves
+      parent.make_children(legit_moves)
+      exhausted_moves += legit_moves
+      node_queue += parent.children
+    end
+  end
+
