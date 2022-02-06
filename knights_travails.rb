@@ -65,3 +65,17 @@ class KnightsPath
   end
 
 end
+
+class Knight
+  MOV_PATTERN = [[2,1],[2,-1],[-2,1],[-2,-1],[1,2],[-1,2],[1,-2],[-1,-2]]
+  private_constant :MOV_PATTERN
+  def legit_moves(from)
+    x, y = from
+    return [] if !x.between?(0,7) || !y.between?(0,7)
+
+    possible_moves = MOV_PATTERN.dup
+    possible_moves.map! { |change_x, change_y| [ change_x + x, change_y + y] }
+    possible_moves.select { |x, y| (x.between?(0,7) and y.between?(0,7)) }
+  end
+end
+
