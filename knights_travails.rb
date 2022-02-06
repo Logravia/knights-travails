@@ -9,3 +9,18 @@ def init_board
   Array.new(height){Array.new(8)}
 end
 
+class SquareNode
+  attr_reader :location, :children, :parent
+  def initialize(parent, location)
+    @parent = parent
+    @location = location
+    @children = []
+  end
+  def make_children(paths)
+    @children = paths.map { |path| SquareNode.new(self, path) }
+  end
+  def root?
+    @parent.nil?
+  end
+end
+
