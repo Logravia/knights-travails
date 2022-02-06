@@ -1,8 +1,6 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require 'pry-byebug'
-
 def init_board
   height = 8
   width = 8
@@ -11,7 +9,7 @@ end
 
 class SquareNode
   attr_reader :location, :children, :parent
-  def initialize(parent, location)
+  def initialize(parent=nil, location)
     @parent = parent
     @location = location
     @children = []
@@ -25,9 +23,12 @@ class SquareNode
 end
 
 class KnightsPath
-  def initialize(start)
-    @root = SquareNode.new(nil, start)
+  def initialize(start, ending)
+    @root = SquareNode.new(start)
     @knight = Knight.new
+    gen_path
+    @ending = find_node(ending)
+    @path = back_track(@ending)
   end
 
   def gen_path()
@@ -58,12 +59,16 @@ class KnightsPath
     back_path = []
     cur_node = node
     until cur_node.nil?
-      back_path << cur_node.location
+      back_path.unshift(cur_node.location)
       cur_node = cur_node.parent
     end
     back_path
   end
 
+  def show
+    puts "It took #{@path.size-1} turns to get to #{@ending.location}"
+    @path.each { |square| pp square }
+  end
 end
 
 class Knight
@@ -79,3 +84,9 @@ class Knight
   end
 end
 
+def knight_moves(start,ending)
+  path = KnightsPath.new(start, ending)
+  path.show
+end
+
+knight_moves([0,0],[5,5])
