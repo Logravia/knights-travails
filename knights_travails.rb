@@ -43,3 +43,14 @@ class KnightsPath
     end
   end
 
+  # Breadth first search
+  def find_node(location)
+    node_queue = [@root]
+    until node_queue.empty?
+      root = node_queue.shift
+      return root if root.location == location
+      node_queue += root.children
+    end
+    nil
+  end
+
