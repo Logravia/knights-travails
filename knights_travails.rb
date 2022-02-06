@@ -54,3 +54,14 @@ class KnightsPath
     nil
   end
 
+  def back_track(node)
+    back_path = []
+    cur_node = node
+    until cur_node.nil?
+      back_path << cur_node.location
+      cur_node = cur_node.parent
+    end
+    back_path
+  end
+
+end
